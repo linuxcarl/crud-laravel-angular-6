@@ -12,9 +12,13 @@ class MovieController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id=null)
     {
-        $movies = Movie::get();
+        if($id){
+            $movies = Movie::whereId($id)->first();
+        }else{
+            $movies = Movie::get();
+        }
         echo json_encode($movies);
     }
 
@@ -27,11 +31,11 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         $movie = new Movie();
-        $movie->name = $request->input('name');
+        $movie->name        = $request->input('name');
         $movie->description = $request->input('description');
-        $movie->year = $request->input('year');
-        $movie->genre = $request->input('genre');
-        $movie->duration = $request->input('duration');
+        $movie->year        = $request->input('year');
+        $movie->genre       = $request->input('genre');
+        $movie->duration    = $request->input('duration');
         $movie->save();
         echo json_encode($movie);
     }
